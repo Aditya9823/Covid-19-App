@@ -1,37 +1,203 @@
-## Welcome to GitHub Pages
+## My Website
 
-You can use the [editor on GitHub](https://github.com/Aditya9823/Covid-19-App/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+Introduction
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+This web page  is created to check the stats of the stats of Covid-19 Pandemic. In this web page we can check the total number of confirmed cases, recovered cases and number of deaths due to Covid-19. This is an interactive web page designed using different languages i.e. HTML, CSS, JavaScript, AngularJS and APIs. In this web page user can interact and check the global stats as well as stats of any particular country.
 
-### Markdown
+CODE:
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+HTML:
 
-```markdown
-Syntax highlighted code block
+<!DOCTYPE html>
+<html lang="en">
 
-# Header 1
-## Header 2
-### Header 3
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Covid Stats</title>
 
-- Bulleted
-- List
+	<link 
+		rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
+		crossorigin="anonymous" 
+	/>
+	<link rel="stylesheet" href="css/style.css" />
 
-1. Numbered
-2. List
+	<script 
+		src="https://code.jquery.com/jquery-3.2.1.slim.min.js" 
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" 
+		crossorigin="anonymous">
+	</script>
+	<script 
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" 
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" 
+		crossorigin="anonymous">
+	</script>
+	<script 
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" 
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" 
+		crossorigin="anonymous">
+	</script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+	<script src="js/myscript.js"></script>
 
-**Bold** and _Italic_ and `Code` text
+</head>
 
-[Link](url) and ![Image](src)
-```
+<body ng-app="MyApp" ng-controller="MyCtrl">
+	<div class="container">
+		<div class="jumbotron py-3">
+			<p class="aligncenter">
+				<img src="img/image (1).png" width="200px" height="150px" />
+			</p>
+			<h1 class="text-center">{{title}}</h1>
+			<p class="pt-3">
+				The Coronavirus Disease 2019 (Covid-19) epidemic is knocking on Indian doors after 
+				infecting tens of thousands of people in over 60 countries across the world. This 
+				week, India reported three fresh coronavirus cases, taking the total number of 
+				confirmed infections in the country six. And since then, focus has increasingly 
+				shifted to the fallout impact of the new Covid-19 cases and to the question of how 
+				ready the country is to fight the global outbreak.
+			</p>
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
 
-### Jekyll Themes
+			<!-- all data -->
+			<div class="row text-center">
+				<div class="col-md-4">
+					<div class="card bg-warning text-white">
+						<div class="card-body">
+							<h3>Confirmed Cases</h3>
+							<h3>{{all_data.confirmed.value}}</h3>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="card bg-success text-white">
+						<div class="card-body">
+							<h3>Recovered Cases</h3>
+							<h3>{{all_data.recovered.value}}</h3>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="card bg-danger text-white">
+						<div class="card-body">
+							<h3>Death Cases</h3>
+							<h3>{{all_data.deaths.value}}</h3>
+						</div>
+					</div>
+				</div>
+			</div>
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Aditya9823/Covid-19-App/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+			<!-- END ALL DATA -->
 
-### Support or Contact
+			<input 
+				type="text" 
+				class="form-control mt-4" 
+				placeholder="Enter Country Here"
+				ng-model="c"
+				ng-change="get_c_data()"
+			/>
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+			<!-- c data-->
+
+			<div class="container-fluid"  ng-if="c_data">
+				<h3 class="text-center mt-4 text-uppercase">{{c}} status</h3>
+				<div class="row text-center mt-4">
+					<div class="col-md-4">
+						<div class="card bg-warning text-white">
+							<div class="card-body">
+								<h3>Confirmed Cases</h3>
+								<h3>{{c_data.confirmed.value}}</h3>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card bg-success text-white">
+							<div class="card-body">
+								<h3>Recovered Cases</h3>
+								<h3>{{c_data.recovered.value}}</h3>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="card bg-danger text-white">
+							<div class="card-body">
+								<h3>Death Cases</h3>
+								<h3>{{c_data.deaths.value}}</h3>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- END ALL DATA -->
+
+		</div>
+	</div>
+	
+</body>
+
+</html>
+
+
+
+CSS:
+
+.aligncenter {
+    text-align: center;
+}
+
+
+JavaScript:
+
+const URL = "https://covid19.mathdro.id/api";
+
+
+let app = angular.module("MyApp", []);
+
+app.controller("MyCtrl", ($scope, $http) => {
+    //this is controller 
+    $scope.title = "Stay Home Stay Safe";
+
+    console.log("APP Loaded");
+
+    //calling api
+
+    $http.get(URL).then( 
+        (response) => {
+            //success
+            console.log(response.data);
+
+            $scope.all_data = response.data;
+        },
+        (error) => {
+            //error
+            console.log(error);
+        }
+    );
+
+    //get country data 
+
+    $scope.get_c_data = () => {
+        let country = $scope.c;
+        if (country == "") {
+            $scope.c_data = undefined;
+            return;
+        }
+        
+        $http.get(`${URL}/countries/${country}`)
+        .then( (response) => {
+            console.log(response.data);
+            $scope.c_data = response.data;
+        }, 
+        (error) => {
+            console.log(error);
+        })
+    };
+
+});
+
+
+SITE LINK:
+https://aditya9823.github.io/Covid-19-App/site/
